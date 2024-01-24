@@ -1,5 +1,5 @@
 def docker_compose(*args)
-  execute(:docker, 'compose', '--project-name', fetch(:application), *args)
+  execute(:docker, "compose", "--project-name", fetch(:application), *args)
 end
 
 namespace :deploy do
@@ -7,7 +7,7 @@ namespace :deploy do
     namespace :network do
       task :create do
         on roles(:all) do
-          execute(:docker, 'network', 'create', fetch(:docker_network), verbosity: :DEBUG)
+          execute(:docker, "network", "create", fetch(:docker_network), verbosity: :DEBUG)
         rescue StandardError
           nil
         end
@@ -17,7 +17,7 @@ namespace :deploy do
     task :build do
       on roles(:all) do
         within current_path do
-          docker_compose 'build'
+          docker_compose "build"
         end
       end
     end
@@ -25,14 +25,14 @@ namespace :deploy do
     task :update do
       on roles(:all) do
         within current_path do
-          docker_compose 'up', '--detach'
+          docker_compose "up", "--detach"
         end
       end
     end
 
     task :cleanup do
       on roles(:all) do
-        execute :docker, 'system', 'prune', '--force', '--all'
+        execute :docker, "system", "prune", "--force", "--all"
       end
     end
 
@@ -48,7 +48,7 @@ namespace :deploy do
       task :migrate do
         on roles(:master) do
           within current_path do
-            docker_compose 'run', '--rm', fetch(:master_service), 'node', 'ace', 'migration:run', '--force'
+            docker_compose "run", "--rm", fetch(:master_service), "node", "ace", "migration:run", "--force"
           end
         end
       end
@@ -56,7 +56,7 @@ namespace :deploy do
       task :reset do
         on roles(:master) do
           within current_path do
-            docker_compose 'run', '--rm', fetch(:master_service), 'node', 'ace', 'migration:fresh'
+            docker_compose "run", "--rm", fetch(:master_service), "node", "ace", "migration:fresh"
           end
         end
       end

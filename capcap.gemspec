@@ -27,7 +27,9 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'capistrano'
-  spec.add_dependency 'capistrano-file-permissions'
-  spec.add_dependency 'capistrano-git-with-submodules'
+  spec.add_dependency "activesupport"
+  spec.add_dependency "capistrano"
+  spec.add_dependency "capistrano-file-permissions"
+  spec.add_dependency "capistrano-git-with-submodules"
+  spec.add_dependency "httparty"
 end

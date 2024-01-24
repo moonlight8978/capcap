@@ -1,5 +1,10 @@
-load File.expand_path('../../capistrano/tasks/shared.rake', __FILE__)
-load File.expand_path('../../capistrano/tasks/docker.rake', __FILE__)
+# frozen_string_literal: true
+
+%w[tasks docker].each do |plugin|
+  Dir[File.join(File.expand_path(__dir__), "..", "capistrano", plugin, "**", "*.rake")].each do |file|
+    load file
+  end
+end
 
 before :"deploy:check:linked_files", :"deploy:create:linked_files"
 after :"deploy:symlink:release", :"deploy:docker:build"

@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+require "bundler/setup"
+
+require "rake"
+require "capistrano/all"
+
+require "capistrano/setup"
+require "capistrano/deploy"
+
+require "capistrano/scm/git"
+install_plugin Capistrano::SCM::Git
+
 require "capcap"
 
 RSpec.configure do |config|
