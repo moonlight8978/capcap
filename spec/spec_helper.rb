@@ -3,15 +3,16 @@
 require "bundler/setup"
 
 require "rake"
-require "capistrano/all"
+require "dotenv/load"
 
+require "capistrano/all"
 require "capistrano/setup"
 require "capistrano/deploy"
 
 require "capistrano/scm/git"
 install_plugin Capistrano::SCM::Git
 
-require "capcap"
+require "munkit/capcap"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

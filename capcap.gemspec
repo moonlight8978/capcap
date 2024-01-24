@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "lib/capcap/version"
+require_relative "lib/munkit/capcap/version"
 
 Gem::Specification.new do |spec|
   spec.name = "munkit-capcap"
-  spec.version = Capcap::VERSION
+  spec.version = Munkit::Capcap::VERSION
   spec.authors = ["_MoonLight_"]
   spec.email = ["moonlight8978@gmail.com"]
 

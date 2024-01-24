@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def docker_compose(*args)
   execute(:docker, "compose", "--project-name", fetch(:application), *args)
 end
@@ -61,5 +63,12 @@ namespace :deploy do
         end
       end
     end
+  end
+end
+
+namespace :load do
+  task :defaults do
+    set :docker_network, -> { fetch(:application) }
+    set :master_service, :backend
   end
 end

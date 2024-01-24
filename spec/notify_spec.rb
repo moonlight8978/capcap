@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "capcap/docker"
+require "munkit/capcap/docker"
 
-RSpec.describe Telegram do
+RSpec.describe Munkit::Telegram do
   it "parse columns" do
     text = <<-COLUMNS
       |W| full |W| Project |W| https://github.com
@@ -36,5 +36,15 @@ RSpec.describe Telegram do
     expect(described_class.html_escape(text)).to eq(
       "http://localhost/dashboard/&#10;http://localhost/grafana/dashboards"
     )
+  end
+
+  it "parse to telegram message" do
+    text = <<-TEXT
+      |W| full |W| Project |W| https://github.com
+      |W| full |W| Author |W| _MoonLight_
+      |W| full |W| Changelog |W| <html-escape>fix: Fix 1\nfix: Fix 2</html-escape>
+    TEXT
+
+    expect { described_class.to_telegram_message("Success", text) }.not_to raise_error
   end
 end

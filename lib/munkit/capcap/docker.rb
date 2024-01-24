@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-%w[tasks docker].each do |plugin|
-  Dir[File.join(File.expand_path(__dir__), "..", "capistrano", plugin, "**", "*.rake")].each do |file|
-    load file
-  end
-end
+require_relative "helper"
+
+Munkit::Capcap::Helper.load_plugin "shared", "notify", "docker"
 
 before :"deploy:check:linked_files", :"deploy:create:linked_files"
 after :"deploy:symlink:release", :"deploy:docker:build"
