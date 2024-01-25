@@ -11,7 +11,7 @@ module Munkit
     def notify(group_id:, token:, message:, columns:, topic_id: nil)
       require "httparty"
 
-      response = HTTParty.post(
+      HTTParty.post(
         "https://api.telegram.org/bot#{token}/sendMessage",
         body: {
           chat_id: group_id,
@@ -21,8 +21,6 @@ module Munkit
           reply_to_message_id: topic_id
         }
       )
-
-      raise "Telegram notification failed: #{response.code} #{response.body}" unless response.ok?
     end
 
     # @param [String] text

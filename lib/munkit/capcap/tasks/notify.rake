@@ -20,13 +20,15 @@ namespace :deploy do
       next if dry_run?
 
       run_locally do
-        Munkit::Telegram.notify(
+        response = Munkit::Telegram.notify(
           group_id: fetch(:telegram_group),
           topic_id: fetch(:telegram_topic),
           token: fetch(:telegram_token),
           message: fetch(:telegram_message),
           columns: fetch(:telegram_columns)
         )
+
+        warn "Failed to send message to telegram #{response.body}" unless response.ok?
       end
     end
   end
