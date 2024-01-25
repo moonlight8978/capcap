@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :deploy do
   namespace :create do
     task :linked_files do
