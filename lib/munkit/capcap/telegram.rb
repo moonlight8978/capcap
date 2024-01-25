@@ -7,8 +7,6 @@ Munkit::Capcap::Helper.load_plugin "notify", "git"
 namespace :deploy do
   namespace :notify do
     task :telegram_success do
-      next unless fetch(:telegram_enabled)
-
       set :telegram_columns, lambda {
         if fetch(:public_links).empty?
           <<~COLUMNS
@@ -34,8 +32,6 @@ namespace :deploy do
     end
 
     task :telegram_failure do
-      next unless fetch(:telegram_enabled)
-
       set :telegram_columns, lambda {
         <<~COLUMNS
           |W| full |W| Project    |W| #{fetch(:application)}/#{fetch(:stage)}
@@ -54,7 +50,6 @@ end
 namespace :load do
   task :defaults do
     set :public_links, []
-    set :telegram_enabled, true
   end
 end
 

@@ -8,6 +8,8 @@ namespace :deploy do
     include Capistrano::Doctor::OutputHelpers
 
     task :telegram do
+      next unless fetch(:telegram_enabled)
+
       run_locally do
         puts "Send message to group: #{fetch(:telegram_group)}, topic: #{fetch(:telegram_topic)}"
         puts <<~MESSAGE
@@ -19,15 +21,15 @@ namespace :deploy do
 
       next if dry_run?
 
-      run_locally do
-        response = Munkit::Telegram.notify(
-          group_id: fetch(:telegram_group),
-          topic_id: fetch(:telegram_topic),
-          token: fetch(:telegram_token),
-          message: fetch(:telegram_message),
-          columns: fetch(:telegram_columns)
-        )
+      response = Munkit::Telegram.notify(
+        group_id: fetch(:telegram_group),
+        topic_id: fetch(:telegram_topic),
+        token: fetch(:telegram_token),
+        message: fetch(:telegram_message),
+        columns: fetch(:telegram_columns)
+      )
 
+      run_locally do
         warn "Failed to send message to telegram #{response.body}" unless response.ok?
       end
     end
@@ -40,5 +42,6 @@ namespace :load do
     set :telegram_message, ""
     set :telegram_columns, ""
     set :telegram_topic, nil
+    set :telegram_enabled, true
   end
 end
