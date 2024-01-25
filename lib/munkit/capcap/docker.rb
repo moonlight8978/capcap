@@ -2,7 +2,7 @@
 
 require_relative "helper"
 
-Munkit::Capcap::Helper.load_plugin "shared", "notify", "docker"
+Munkit::Capcap::Helper.load_plugin "shared", "git", "notify", "docker"
 
 before :"deploy:check:linked_files", :"deploy:create:linked_files"
 after :"deploy:symlink:release", :"deploy:docker:build"
