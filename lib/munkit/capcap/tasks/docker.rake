@@ -34,7 +34,11 @@ namespace :deploy do
 
     task :cleanup do
       on roles(:all) do
-        execute :docker, "system", "prune", "--force", "--all"
+        if fetch(:docker_skip_clean)
+          info "Skip clean docker system"
+        else
+          execute :docker, "system", "prune", "--force", "--all"
+        end
       end
     end
 
@@ -50,7 +54,7 @@ namespace :deploy do
       task :migrate do
         on roles(:master) do
           within current_path do
-            docker_compose "run", "--rm", fetch(:master_service), "node", "ace", "migration:run", "--force"
+            docker_compose "run", "--rm", fetch(:docker_master_service), "node", "ace", "migration:run", "--force"
           end
         end
       end
@@ -58,7 +62,7 @@ namespace :deploy do
       task :reset do
         on roles(:master) do
           within current_path do
-            docker_compose "run", "--rm", fetch(:master_service), "node", "ace", "migration:fresh"
+            docker_compose "run", "--rm", fetch(:docker_master_service), "node", "ace", "migration:fresh"
           end
         end
       end
@@ -69,6 +73,7 @@ end
 namespace :load do
   task :defaults do
     set :docker_network, -> { fetch(:application) }
-    set :master_service, :backend
+    set :docker_master_service, :backend
+    set :docker_skip_clean, false
   end
 end
